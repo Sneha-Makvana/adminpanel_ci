@@ -1,0 +1,172 @@
+CRITICAL - 2024-12-10 08:19:45 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/dashbord.php"
+[Method: GET, Route: admin]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 41.
+ 1 SYSTEMPATH\View\View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/dashbord.php')
+ 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('admin/dashbord', [], true)
+ 3 APPPATH\Controllers\AdminController.php(11): view('admin/dashbord', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AdminController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 08:20:40 --> ErrorException: Undefined variable $totalCustomers
+[Method: GET, Route: admin]
+in APPPATH\Views\admin\dashboard.php on line 38.
+ 1 APPPATH\Views\admin\dashboard.php(38): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $totalCustomers', 'C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\admin\\dashboard.php', 38)
+ 2 SYSTEMPATH\View\View.php(234): include('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\admin\\dashboard.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('admin/dashboard', [], true)
+ 5 APPPATH\Controllers\AdminController.php(11): view('admin/dashboard', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AdminController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 08:21:09 --> ErrorException: Undefined variable $conn
+[Method: GET, Route: admin]
+in APPPATH\Views\admin\dashboard.php on line 152.
+ 1 APPPATH\Views\admin\dashboard.php(152): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $conn', 'C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\admin\\dashboard.php', 152)
+ 2 SYSTEMPATH\View\View.php(234): include('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\admin\\dashboard.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('admin/dashboard', [], true)
+ 5 APPPATH\Controllers\AdminController.php(11): view('admin/dashboard', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AdminController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 08:21:37 --> ErrorException: Undefined global variable $_SESSION
+[Method: GET, Route: admin]
+in APPPATH\Views\admin\header.php on line 14.
+ 1 APPPATH\Views\admin\header.php(14): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined global variable $_SESSION', 'C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\admin\\header.php', 14)
+ 2 SYSTEMPATH\View\View.php(234): include('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\admin\\header.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('admin/header.php', null, true)
+ 5 APPPATH\Views\layout.php(20): CodeIgniter\View\View->include('admin/header.php')
+ 6 SYSTEMPATH\View\View.php(234): include('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\layout.php')
+ 7 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 8 SYSTEMPATH\View\View.php(250): CodeIgniter\View\View->render('layout', [], true)
+ 9 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('admin/dashboard', [], true)
+10 APPPATH\Controllers\AdminController.php(11): view('admin/dashboard', [...])
+11 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AdminController->index()
+12 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+13 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+14 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+15 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+16 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+17 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 08:22:09 --> CodeIgniter\HTTP\Exceptions\BadRequestException: The URI you submitted has disallowed characters: "<"
+[Method: GET, Route: %3C]
+in SYSTEMPATH\Router\Router.php on line 737.
+ 1 SYSTEMPATH\Router\Router.php(204): CodeIgniter\Router\Router->checkDisallowedChars('<')
+ 2 SYSTEMPATH\CodeIgniter.php(834): CodeIgniter\Router\Router->handle('<')
+ 3 SYSTEMPATH\CodeIgniter.php(457): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-12-10 09:44:50 --> ErrorException: Undefined variable $result
+[Method: GET, Route: event/create]
+in APPPATH\Views\event\create.php on line 139.
+ 1 APPPATH\Views\event\create.php(139): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $result', 'C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\event\\create.php', 139)
+ 2 SYSTEMPATH\View\View.php(234): include('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\event\\create.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('event/create', [], true)
+ 5 APPPATH\Controllers\EventController.php(11): view('event/create')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\EventController->create()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\EventController))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 09:52:55 --> ErrorException: Undefined variable $result
+[Method: GET, Route: category/create]
+in APPPATH\Views\category\create.php on line 38.
+ 1 APPPATH\Views\category\create.php(38): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $result', 'C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\category\\create.php', 38)
+ 2 SYSTEMPATH\View\View.php(234): include('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\app\\Views\\category\\create.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('category/create', [], true)
+ 5 APPPATH\Controllers\Category.php(11): view('category/create')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Category->create()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Category))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 10:11:35 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "customer/table.php"
+[Method: GET, Route: customer/table]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 41.
+ 1 SYSTEMPATH\View\View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('customer/table.php')
+ 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('customer/table', [], true)
+ 3 APPPATH\Controllers\Customer.php(15): view('customer/table')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Customer->table()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 10:11:40 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "customer/table.php"
+[Method: GET, Route: customer/table]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 41.
+ 1 SYSTEMPATH\View\View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('customer/table.php')
+ 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('customer/table', [], true)
+ 3 APPPATH\Controllers\Customer.php(15): view('customer/table')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Customer->table()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 10:11:53 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "customer/table.php"
+[Method: GET, Route: customer/table]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 41.
+ 1 SYSTEMPATH\View\View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('customer/table.php')
+ 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('customer/table', [], true)
+ 3 APPPATH\Controllers\Customer.php(15): view('customer/table')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Customer->table()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 10:11:53 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "customer/table.php"
+[Method: GET, Route: customer/table]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 41.
+ 1 SYSTEMPATH\View\View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('customer/table.php')
+ 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('customer/table', [], true)
+ 3 APPPATH\Controllers\Customer.php(15): view('customer/table')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Customer->table()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 10:12:18 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "customer/table.php"
+[Method: GET, Route: customer/table]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 41.
+ 1 SYSTEMPATH\View\View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('customer/table.php')
+ 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('customer/table', [], true)
+ 3 APPPATH\Controllers\Customer.php(15): view('customer/table')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Customer->table()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\sneha\\codeigniter\\adminpanel_ci\\public\\index.php')
+CRITICAL - 2024-12-10 12:00:41 --> ErrorException: Maximum execution time of 60 seconds exceeded
+[Method: GET, Route: customer/view]
+in SYSTEMPATH\Helpers\filesystem_helper.php on line 125.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
