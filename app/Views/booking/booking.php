@@ -94,6 +94,8 @@
             return;
         }
 
+        $('#message').text('');
+        
         if (!customerSelected) {
             $('#customer').prop('disabled', true);
             customerSelected = true;
