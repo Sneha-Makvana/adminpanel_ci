@@ -1,7 +1,7 @@
 <?= $this->extend('layout'); ?>
 <?= $this->section('content'); ?>
 
-<div class="container-fluid dashboard-content">
+<div class="container-fluid dashboard-content mt-5">
     <div class="row">
         <div class="col-12 col-lg-8 mx-auto">
             <div class="card">

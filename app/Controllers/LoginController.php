@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
@@ -6,60 +7,66 @@ use App\Models\LoginModel;
 
 class LoginController extends Controller
 {
-    public function create()
-    {
-        if (session()->get('logged_in')) {
-            return redirect()->to('/admin');
-        }
+    protected $loginModel;
 
-        return view('login/login', ['isLoginPage' => true]);
+    public function __construct()
+    {
+        $this->loginModel = new LoginModel();
     }
 
+    // View the login page
+    public function view()
+    {
+        return view('login/login');
+    }
+
+    // Handle login functionality
     public function login()
     {
-        $response = ['status' => false, 'message' => ''];
-        $request = $this->request;
+        // Get POST data from the form
+        $email = $this->request->getPost('email');
+        $password = $this->request->getVar('password');
 
-        if ($request->isAJAX()) {
-            $email = $request->getVar('email');
-            $password = $request->getVar('password');
+        // Check if user exists
+        $user = $this->loginModel->where('email', $email)->first();
 
-            $validationRules = [
-                'email' => 'required|valid_email',
-                'password' => 'required|min_length[6]',
-            ];
-
-            if (!$this->validate($validationRules)) {
-                return $this->response->setJSON([
-                    'status' => 'error',
-                    'errors' => $this->validator->getErrors()
-                ]);
-            }
-
-            $loginModel = new LoginModel();
-            $user = $loginModel->where('email', $email)->first();
-
-            if ($user && md5($password) === $user['password']) {
-                $session = session();
-                $session->set([
+        if ($user) {
+            // User exists, check the password
+            if (password_verify($password, $user['password'])) {
+                // Set session data
+                session()->set([
                     'user_id' => $user['id'],
                     'email' => $user['email'],
-                    'logged_in' => true
+                    'is_logged_in' => true
                 ]);
-                $response['status'] = true;
-                $response['message'] = 'Login successful!';
-            } else {
-                $response['message'] = 'Invalid email or password!';
-            }
-        }
 
-        return $this->response->setJSON($response);
+                return $this->response->setJSON([
+                    'status' => 'success',
+                    'message' => 'Login successful'
+                ]);
+            } else {
+                // Incorrect password
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Invalid credentials (incorrect password)'
+                ]);
+            }
+        } else {
+            // User not found
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Invalid credentials (user not found)'
+            ]);
+        }
     }
 
+    // Handle logout functionality
     public function logout()
     {
-        $session = session();
-        $session->destroy();
-        return redirect()->to('/login');
+        session()->destroy();
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Logout successful'
+        ]);
     }
 }

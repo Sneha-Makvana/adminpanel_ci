@@ -1,4 +1,4 @@
-<footer class="footer bg-dark-subtle">
+<footer class="footer">
     <div class="container-fluid">
         <div class="row text-muted">
             <div class="col-6 text-start">
