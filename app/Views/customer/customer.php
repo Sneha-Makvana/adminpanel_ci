@@ -141,6 +141,7 @@
     </div>
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
@@ -151,7 +152,7 @@
 
         function fetchUserData(id) {
             $.ajax({
-                url: `<?= base_url('/customer/fetchCustomer/') ?>${id}`,
+                url: `<?= base_url('/customer/fetchCustomer/') ?>${id}`,    
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
@@ -180,7 +181,7 @@
 
             if (data.profile_image) {
                 $("#currentProfileImage").html(
-                    `<p>Current Image: <img src="<?= base_url() ?>/uploads/customers/${data.profile_image}" alt="Profile Image" class="img-fluid" style="max-width: 100px;"></p>`
+                    `<p>Current Image: <img src="<?= base_url() ?>public/uploads/customers/${data.profile_image}" alt="Profile Image" class="img-fluid" style="max-width: 100px;"></p>`
                 );
             }
         }
@@ -205,7 +206,7 @@
                 contentType: false,
                 success: function(response) {
                     if (response.success) {
-                        $("#responseMessage").html('<p class="text-success">' + response.message + '<a href="/customer/view">View</a>' + '</p>');
+                        $("#responseMessage").html('<p class="text-success">' + response.message + '<a href="<?= base_url('/customer/view')?>">View</a>' + '</p>');
                         $("#customerForm")[0].reset();
                     } else {
                         $.each(response.errors, function(key, value) {

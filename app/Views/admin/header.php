@@ -11,7 +11,7 @@
                         <span class="text-dark">Username</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="<?= base_url('/logout') ?>">
+                        <a class="dropdown-item" id="logout" href="<?= base_url('/logout') ?>">
                             <i class="align-middle me-1" data-feather="log-out"></i> Log out
                         </a>
                     </div>

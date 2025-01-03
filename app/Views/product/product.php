@@ -24,9 +24,9 @@
                                             <i data-feather="user"></i>
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter your product name">
+                                    <input type="text" class="form-control" name="product_name" id="product_name" placeholder="Enter your product name">
                                 </div>
-                                <div class="error" id="nameError"></div>
+                                <div class="error" id="product_nameError"></div>
                             </div>
                         </div>
 
@@ -63,7 +63,7 @@
                                     </div>
                                     <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Enter quantity">
                                 </div>
-                                <div class="error" id="booking_ticketError"></div>
+                                <div class="error" id="quantityError"></div>
                             </div>
                         </div>
 
@@ -98,7 +98,9 @@
                                     </div>
                                     <select class="form-select" name="category" id="category">
                                         <option selected disabled>Select Category</option>
-
+                                        <?php foreach ($category as $category) : ?>
+                                            <option value="<?= $category['id'] ?>"><?= $category['category_name'] ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="error" id="categoryError"></div>
@@ -124,11 +126,11 @@
                         <!-- Upload Multiple Images -->
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label for="event_images" class="col-form-label">Product Image</label>
+                                <label for="product_image" class="col-form-label">Product Image</label>
                             </div>
                             <div class="form-group col-md-9 mb-4">
-                                <input type="file" class="form-control" id="product_image" name="product_image" multiple accept="image/*">
-                                <div class="error" id="event_imagesError"></div>
+                                <input type="file" class="form-control" id="product_image" name="product_image[]" multiple accept="image/*">
+                                <div class="error" id="product_imageError"></div>
                                 <div id="currentProductImage"></div>
                             </div>
                         </div>
@@ -157,7 +159,7 @@
 
         function fetchEventData(id) {
             $.ajax({
-                url: `<?= base_url('/event/fetchEvent/') ?>${id}`,
+                url: `<?= base_url('/product/fetchProduct/') ?>${id}`,
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
@@ -168,60 +170,36 @@
                     }
                 },
                 error: function() {
-                    alert('An error occurred while fetching event data.');
+                    alert('An error occurred while fetching product data.');
                 }
             });
         }
 
         function populateForm(data) {
             $("#id").val(data.id);
-            $("#event_name").val(data.event_name);
+            $("#product_name").val(data.product_name);
             $("#description").val(data.description);
-            $("#location").val(data.location);
-            $("#start_date").val(data.start_date);
-            $("#end_date").val(data.end_date);
-            $("#booking_ticket").val(data.booking_ticket);
+            $("#quantity").val(data.quantity);
+            $("#price").val(data.price);
+            $("#size").val(data.size);
             $("#category").val(data.category_id);
-            $("#no_of_tickets").val(data.no_of_tickets);
 
-            if (data.event_images) {
-                const images = data.event_images.split(',');
+            // Handle images: Split the product_image field into individual image paths and display them.
+            if (data.product_image) {
+                const images = data.product_image.split(','); // Split images by comma
                 let imageHTML = '<p>Current Images:</p>';
                 images.forEach(function(image) {
                     imageHTML += `
-                <div class="event-image" data-image="${image}">
-                    <img src="<?= base_url() ?>/uploads/events/${image}" alt="Event Image" class="img-fluid" style="max-width: 100px; height: auto; margin-right: 10px; margin-bottom: 10px;" />
-                    <button type="button" class="btn btn-danger btn-sm delete-image" data-image="${image}">Delete</button>
+                <div class="product-image" data-image="${image}">
+                    <img src="<?= base_url() ?>public/uploads/events/${image}" alt="Event Image" class="img-fluid" style="max-width: 100px; height: auto; margin-right: 10px; margin-bottom: 10px;" />
                 </div>
             `;
                 });
-                $("#currentEventImage").html(imageHTML);
+                $("#currentProductImage").html(imageHTML); // Render the images in the HTML.
             }
         }
 
-        $(document).on('click', '.delete-image', function() {
-            const imageName = $(this).data('image');
-            const eventId = $("#id").val();
 
-            $.ajax({
-                url: `<?= base_url('/event/deleteImage/') ?>${eventId}`,
-                method: 'POST',
-                data: {
-                    image_name: imageName
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $(`.event-image[data-image="${imageName}"]`).remove();
-                        alert(response.message);
-                    } else {
-                        alert('Error: ' + response.message);
-                    }
-                },
-                error: function() {
-                    alert('An error occurred while deleting the image.');
-                }
-            });
-        });
 
 
         function getQueryParameter(param) {
@@ -237,14 +215,14 @@
             $(".error").html("");
 
             $.ajax({
-                url: `<?= base_url('event/') ?>${formAction}`,
+                url: `<?= base_url('product/') ?>${formAction}`,
                 method: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(response) {
                     if (response.success) {
-                        $("#responseMessage").html('<p class="text-success">' + response.message + '<a href="/event/view">View</a>' + '</p>');
+                        $("#responseMessage").html('<p class="text-success">' + response.message + '<a href="<?= base_url('/product/view') ?>">View</a>' + '</p>');
                     } else {
                         $.each(response.errors, function(key, value) {
                             $('#' + key + 'Error').html('<small class="text-danger">' + value + '</small>');

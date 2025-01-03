@@ -7,66 +7,70 @@ use App\Models\LoginModel;
 
 class LoginController extends Controller
 {
-    protected $loginModel;
-
-    public function __construct()
+    public function create()
     {
-        $this->loginModel = new LoginModel();
+        if (session()->get('logged_in')) {
+            return redirect()->to('/admin');
+        }
+
+        return view('login/login', ['isLoginPage' => true]);
     }
 
-    // View the login page
-    public function view()
-    {
-        return view('login/login');
-    }
-
-    // Handle login functionality
     public function login()
     {
-        // Get POST data from the form
-        $email = $this->request->getPost('email');
-        $password = $this->request->getVar('password');
+        $response = ['status' => false, 'message' => ''];
+        $request = $this->request;
 
-        // Check if user exists
-        $user = $this->loginModel->where('email', $email)->first();
+        // Check if the request is an AJAX call
+        if ($request->isAJAX()) {
+            $email = $request->getPost('email');
+            $password = $request->getVar('password');
 
-        if ($user) {
-            // User exists, check the password
-            if (password_verify($password, $user['password'])) {
-                // Set session data
-                session()->set([
-                    'user_id' => $user['id'],
-                    'email' => $user['email'],
-                    'is_logged_in' => true
-                ]);
+            // Validation rules for email and password
+            $validationRules = [
+                'email' => 'required|valid_email',
+                'password' => 'required|min_length[6]',
+            ];
 
-                return $this->response->setJSON([
-                    'status' => 'success',
-                    'message' => 'Login successful'
-                ]);
-            } else {
-                // Incorrect password
+            // Validate input data
+            if (!$this->validate($validationRules)) {
+                // If validation fails, return errors
                 return $this->response->setJSON([
                     'status' => 'error',
-                    'message' => 'Invalid credentials (incorrect password)'
+                    'errors' => $this->validator->getErrors()
                 ]);
             }
-        } else {
-            // User not found
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Invalid credentials (user not found)'
-            ]);
+
+            // Initialize LoginModel to check user credentials
+            $loginModel = new LoginModel();
+            $user = $loginModel->where('email', $email)->first();
+
+            // Check if user exists and password matches
+            if ($user && md5($password) === $user['password']) {
+                // If successful, create session
+                $session = session();
+                $session->set([
+                    'user_id' => $user['id'],
+                    'email' => $user['email'],
+                    'logged_in' => true
+                ]);
+                $response['status'] = true;
+                $response['message'] = 'Login successful!';
+            } else {
+                // If credentials are wrong, return a specific error message
+                $response['message'] = 'Invalid email or password!';
+            }
         }
+
+        // Return the response as JSON
+        return $this->response->setJSON($response);
     }
 
-    // Handle logout functionality
+
     public function logout()
     {
-        session()->destroy();
-        return $this->response->setJSON([
-            'status' => 'success',
-            'message' => 'Logout successful'
-        ]);
+        $session = session();
+        $session->destroy();
+        return redirect()->to('/login');
     }
 }

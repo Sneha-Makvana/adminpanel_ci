@@ -3,33 +3,29 @@
 
 <div class="container-fluid dashboard-content">
     <div class="row">
+        <!-- Customer and Product Selection -->
         <div class="col-12 col-lg-6 mx-5 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <label for="name">Customers</label>
+                    <label for="customer">Customers</label>
                     <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">
-                                <i data-feather="user-plus"></i>
-                            </span>
-                        </div>
                         <select id="customer" name="customer_id" class="form-control" required>
                             <option value="">Select Customer</option>
-                           
+                            <?php foreach ($customer as $c) : ?>
+                                <option value="<?= $c['id'] ?>"><?= $c['name'] ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
+
                 <div class="card-body">
-                    <label for="name">Products</label>
+                    <label for="product">Products</label>
                     <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">
-                                <i data-feather="file-plus"></i>
-                            </span>
-                        </div>
-                        <select id="event" name="product_id" class="form-control" required>
+                        <select id="products" name="product_id" class="form-control" required>
                             <option value="">Select Product</option>
-                           
+                            <?php foreach ($product as $p) : ?>
+                                <option value="<?= $p['id'] ?>" data-price="<?= $p['price'] ?>"><?= $p['product_name'] ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -41,26 +37,25 @@
             </div>
         </div>
 
+        <!-- Table to show selected orders -->
         <div class="col-12 col-lg-10 mx-5 mt-5">
             <div class="card" id="bookingCard" style="display: none;">
-                <h5 class="card-header fs-4 text-center">Order Bookings</h5>
+                <h5 class="card-header fs-4 text-center">Product Orders</h5>
                 <div class="card-body">
-                    <div class="table table-striped table-hover table-bordered" id="eventTableContainer">
-                        <table class="table" id="eventTable">
-                            <thead>
-                                <tr>
-                                    <th class="bg-dark text-light">Product Name</th>
-                                    <th class="bg-dark text-light">Price</th>
-                                    <th class="bg-dark text-light">Qty</th>
-                                    <th class="bg-dark text-light">Total</th>
-                                    <th class="bg-dark text-light">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table" id="productTable">
+                        <thead>
+                            <tr>
+                                <th class="bg-dark text-light">Product Name</th>
+                                <th class="bg-dark text-light">Price</th>
+                                <th class="bg-dark text-light">Quantity</th>
+                                <th class="bg-dark text-light">Total</th>
+                                <th class="bg-dark text-light">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be added dynamically here -->
+                        </tbody>
+                    </table>
                     <div class="text-right">
                         <strong>Total Price:</strong> <span id="totalPrice">0</span>
                     </div>
@@ -81,60 +76,57 @@
 
     $('#addMoreBtn').click(function() {
         const customerId = $('#customer').val();
-        const eventId = $('#event').val();
-        const eventName = $('#event option:selected').text();
-        const eventPrice = $('#event option:selected').data('price');
+        const productId = $('#products').val();
+        const productName = $('#products option:selected').text(); // Get product name
+        const productPrice = $('#products option:selected').data('price'); // Get product price
 
-        if (!customerId || !eventId) {
-            $('#message').text('Please select both customer and event.');
+        if (!customerId || !productId) {
+            $('#message').text('Please select both customer and product.');
             return;
         }
 
-        $('#message').text('');
-        
+        $('#message').text(''); // Clear any previous message
+
         if (!customerSelected) {
-            $('#customer').prop('disabled', true);
+            $('#customer').prop('disabled', true); // Disable customer select once selected
             customerSelected = true;
         }
 
-        $('#bookingCard').show();
+        $('#bookingCard').show(); // Show the order table
 
         const newRow = `
             <tr>
-                <td>${eventName}</td>
-                <td><input type="number" class="form-control price" value="${eventPrice}" readonly></td>
-                <td><input type="number" class="form-control qty" value="1" min="1"></td>
-                <td><input type="number" class="form-control total" value="${eventPrice}" readonly></td>
+                <td>${productName}</td>
+                <td><input type="number" class="form-control price" value="${productPrice}" readonly></td>
+                <td><input type="number" class="form-control quantity" value="1" min="1"></td>
+                <td><input type="number" class="form-control total" value="${productPrice}" readonly></td>
                 <td><button type="button" class="btn btn-danger removeRowBtn">Remove</button></td>
             </tr>
         `;
-        $('#eventTable tbody').append(newRow);
+        $('#productTable tbody').append(newRow);
 
+        // Add to booking data
         bookingData.push({
             customer_id: customerId,
-            event_id: eventId,
-            qty: 1,
-            total: eventPrice
+            product_id: productId,
+            quantity: 1,
+            total: productPrice
         });
 
         calculateTotal();
     });
 
-    $(document).on('input', '.qty', function() {
+    $(document).on('input', '.quantity', function() {
         const row = $(this).closest('tr');
-        const qty = $(this).val();
+        const quantity = $(this).val();
         const price = row.find('.price').val();
 
-        if (qty < 1) {
-            row.find('.total').val(0);
-        } else {
-            const total = qty * price;
-            row.find('.total').val(total);
-        }
+        const total = quantity * price;
+        row.find('.total').val(total);
 
         const rowIndex = row.index();
-        bookingData[rowIndex].qty = qty;
-        bookingData[rowIndex].total = row.find('.total').val();
+        bookingData[rowIndex].quantity = quantity;
+        bookingData[rowIndex].total = total;
 
         calculateTotal();
     });
@@ -151,7 +143,7 @@
         const row = $(this).closest('tr');
         const rowIndex = row.index();
 
-        bookingData.splice(rowIndex, 1);
+        bookingData.splice(rowIndex, 1); // Remove from booking data
         row.remove();
 
         calculateTotal();
@@ -161,9 +153,9 @@
         let isValid = true;
         let errorMessage = '';
 
-        $('.qty').each(function() {
-            const qty = $(this).val();
-            if (qty < 1) {
+        $('.quantity').each(function() {
+            const quantity = $(this).val();
+            if (quantity < 1) {
                 isValid = false;
                 errorMessage = 'Quantity cannot be less than 1 for any row.';
                 return false;
@@ -176,25 +168,24 @@
         }
 
         $.ajax({
-            url: '<?= base_url('booking/submitBooking') ?>',
+            url: '<?= base_url('order/submitBooking') ?>',
             method: 'POST',
             data: {
                 booking_data: bookingData
             },
             success: function(response) {
                 if (response.status === 'success') {
-                    $('#messageContainer').text(response.message).removeClass('d-none').addClass('text-success'); // Success message in green
-                    $('#eventTable tbody').empty();
+                    $('#messageContainer').text(response.message).removeClass('d-none').addClass('text-success');
+                    $('#productTable tbody').empty();
                     bookingData = [];
                     $('#customer').prop('disabled', false);
                     customerSelected = false;
                     $('#totalPrice').text('0');
                 } else {
-                    $('#messageContainer').text('Failed to submit booking.').removeClass('d-none').addClass('text-danger'); // Error message in red
+                    $('#messageContainer').text('Failed to submit booking.').removeClass('d-none').addClass('text-danger');
                 }
             }
         });
-
     });
 </script>
 

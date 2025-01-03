@@ -5,11 +5,10 @@ use CodeIgniter\Model;
 
 class ProductModel extends Model
 {
-    protected $table = 'event';
+    protected $table = 'products';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'category_id', 'event_name', 'description', 'location', 'start_date', 'end_date', 'booking_ticket',
-         'no_of_tickets','event_images'
+        'category_id', 'product_name', 'description', 'quantity', 'price', 'size', 'product_image'
     ];
 }
 ?>

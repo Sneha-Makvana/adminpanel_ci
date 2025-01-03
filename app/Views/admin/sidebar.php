@@ -1,7 +1,7 @@
 <nav id="sidebar" class="sidebar js-sidebar">
     <div class="sidebar-content js-simplebar">
         
-        <a class="navbar-brand text-center" href="index.html">Admin</a>
+        <a class="navbar-brand text-center" href="<?= base_url('/admin')?>">Admin</a>
         <ul class="sidebar-nav">
             <li class="sidebar-item">
                 <a class="sidebar-link" href="<?= base_url('/admin')?>">

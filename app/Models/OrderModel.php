@@ -5,10 +5,10 @@ use CodeIgniter\Model;
 
 class OrderModel extends Model
 {
-    protected $table = 'booking';
+    protected $table = 'orders';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'event_id', 'customer_id', 'total', 'qty'
+        'product_id', 'customer_id', 'total', 'quantity'
     ];
 }
 ?>
