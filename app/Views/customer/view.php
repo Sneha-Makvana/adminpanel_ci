@@ -3,6 +3,8 @@
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
 <div class="container-fluid dashboard-content mt-5">
     <div class="row">
@@ -37,24 +39,25 @@
         </div>
     </div>
 </div>
+
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <!-- DataTables JS -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    $(document).ready(function() {
-    
+    $(document).ready(function () {
 
         function loadCustomers() {
             $.ajax({
                 url: "<?= site_url('customer/fetch'); ?>",
                 type: "GET",
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     var rows = '';
-                    $.each(data, function(index, customer) {
+                    $.each(data, function (index, customer) {
                         const profileImageUrl = customer.profile_image ? `<?= base_url('public/uploads/customers/'); ?>${customer.profile_image}` : '<?= base_url('public/uploads/customers/default-avatar.jpg'); ?>';
 
                         rows += `
@@ -83,7 +86,7 @@
                     // Re-initialize DataTables after new data is loaded
                     $('#myTable').DataTable().draw();
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error fetching data: ' + error);
                 }
             });
@@ -92,29 +95,51 @@
         // Load customers when the page is ready
         loadCustomers();
 
-        // Handle delete button click
-        $('#myTable').on('click', '.delete-btn', function() {
+        // Handle delete button click using SweetAlert2
+        $('#myTable').on('click', '.delete-btn', function () {
             const customerId = $(this).data('id');
-            if (confirm('Are you sure you want to delete this customer?')) {
-                $.ajax({
-                    url: `<?= site_url('customer/delete'); ?>/${customerId}`,
-                    type: "DELETE",
-                    success: function(response) {
-                        if (response.success) {
-                            $(`#customer-${customerId}`).remove();
-                            alert(response.message);
-                        } else {
-                            alert(response.message);
+            
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `<?= site_url('customer/delete'); ?>/${customerId}`,
+                        type: "DELETE",
+                        success: function (response) {
+                            if (response.success) {
+                                $(`#customer-${customerId}`).remove();
+                                Swal.fire(
+                                    'Deleted!',
+                                    response.message,
+                                    'success'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire(
+                                'Error!',
+                                'Something went wrong while deleting.',
+                                'error'
+                            );
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Error deleting record: ' + error);
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
     });
 </script>
-
 
 <?= $this->endSection(); ?>

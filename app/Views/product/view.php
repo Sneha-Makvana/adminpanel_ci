@@ -2,10 +2,12 @@
 <?= $this->section('content'); ?>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
 <div class="container-fluid dashboard-content mt-5">
     <div class="row">
-        <a href="<?= base_url('/product')?>"><button type="button" class="btn btn-info btn-lg float-end mb-2">Add Product</button></a>
+        <a href="<?= base_url('/product') ?>"><button type="button" class="btn btn-info btn-lg float-end mb-2">Add Product</button></a>
     </div>
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -23,7 +25,7 @@
                                     <th class="bg-dark text-light">Category</th>
                                     <th class="bg-dark text-light">Action</th>
                                 </tr>
-                            </thead>    
+                            </thead>
                             <tbody>
 
                             </tbody>
@@ -37,9 +39,11 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     $(document).ready(function() {
-
         var table = $('#myTable').DataTable({
             "paging": true,
             "searching": true,
@@ -84,12 +88,11 @@
                     </tr>`;
                     });
                     $('#myTable tbody').html(rows);
-                    // Re-initialize DataTable after content is loaded
-                    table.clear(); // Clear previous data
-                    table.rows.add($('#myTable tbody tr')); // Add new rows
-                    table.draw(); // Redraw the table
 
-                    // Re-initialize Feather icons after table is redrawn
+                    table.clear();
+                    table.rows.add($('#myTable tbody tr'));
+                    table.draw();
+
                     feather.replace();
                 },
                 error: function(xhr, status, error) {
@@ -100,26 +103,51 @@
 
         loadEvent();
 
+        // Handle delete button click with SweetAlert2
         $('#myTable').on('click', '.delete-btn', function() {
-            const eventId = $(this).data('id');
-            if (confirm('Are you sure you want to delete this product?')) {
-                $.ajax({
-                    url: `<?= site_url('product/delete'); ?>/${eventId}`,
-                    type: "DELETE",
-                    success: function(response) {
-                        if (response.success) {
-                            $(`#product-${eventId}`).remove();
-                            alert(response.message);
-                        } else {
-                            alert(response.message);
+            const productId = $(this).data('id');
+            
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `<?= site_url('product/delete'); ?>/${productId}`,
+                        type: "DELETE",
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    response.message,
+                                    'success'
+                                );
+                                loadEvent(); // Reload table
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire(
+                                'Error!',
+                                'An error occurred while deleting.',
+                                'error'
+                            );
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Error deleting record: ' + error);
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
+
     });
 </script>
 

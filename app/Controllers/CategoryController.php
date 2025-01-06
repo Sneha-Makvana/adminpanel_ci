@@ -80,11 +80,30 @@ class CategoryController extends BaseController
 
     public function delete($id)
     {
-        if ($this->categoryModel->find($id)) {
-            $this->categoryModel->delete($id);
-            return $this->response->setJSON(['success' => true, 'message' => 'Category deleted successfully.']);
+        $productModel = new \App\Models\ProductModel();
+
+        // Check if any products are associated with this category
+        $associatedProducts = $productModel->where('category_id', $id)->countAllResults();
+
+        if ($associatedProducts > 0) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Cannot delete this category because it has associated products.',
+            ]);
         }
 
-        return $this->response->setJSON(['success' => false, 'message' => 'Category not found.']);
+        // Proceed to delete the category if no associated products
+        if ($this->categoryModel->find($id)) {
+            $this->categoryModel->delete($id);
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Category deleted successfully.',
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Category not found.',
+        ]);
     }
 }

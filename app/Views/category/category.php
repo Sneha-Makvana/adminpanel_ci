@@ -1,9 +1,11 @@
 <?= $this->extend('layout'); ?>
 <?= $this->section('content'); ?>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
 <div class="container-fluid dashboard-content">
     <div class="row">
-        <!-- Form for Insert/Update -->
+
         <div class="col-12 col-lg-8 mx-5 mt-5">
             <div class="card">
                 <form id="categoryForm">
@@ -23,7 +25,6 @@
             </div>
         </div>
 
-        <!-- Display Categories -->
         <div class="col-12 col-lg-8 mx-5 mt-5">
             <div class="card">
                 <h5 class="card-header text-secondary fs-4 text-center">Categories</h5>
@@ -44,6 +45,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
         function loadCategories() {
@@ -59,7 +61,7 @@
                             </a>
                             <a href="javascript:void(0)" class="delete-btn text-danger" data-id="${category.id}">
                             <i class='align-middle' data-feather='trash-2'></i>
-                            </a>
+                            </a>    
                         </td>
                     </tr>
                 `;
@@ -68,7 +70,6 @@
                 feather.replace();
             });
         }
-
         loadCategories();
 
         $('#categoryForm').on('submit', function(e) {
@@ -92,6 +93,7 @@
 
         $('#myTable').on('click', '.edit-btn', function() {
             const id = $(this).data('id');
+            $(".error").html("");
             $.get(`<?= base_url('/category/fetchCategory/') ?>${id}`, function(response) {
                 if (response.success) {
                     $('#id').val(response.data.id);
@@ -102,18 +104,48 @@
 
         $('#myTable').on('click', '.delete-btn', function() {
             const id = $(this).data('id');
-            if (confirm('Are you sure you want to delete this category?')) {
-                $.ajax({
-                    url: `<?= base_url('/category/delete/') ?>${id}`,
-                    type: 'POST',
-                    success: function(response) {
-                        if (response.success) {
-                            $(`#category-${id}`).remove();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This will delete the category. Make sure there are no associated products!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `<?= base_url('/category/delete/') ?>${id}`,
+                        type: 'POST',
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    response.message,
+                                    'success'
+                                );
+                                $(`#category-${id}`).remove();
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire(
+                                'Error!',
+                                'An error occurred while deleting the category.',
+                                'error'
+                            );
                         }
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
+
     });
 </script>
 

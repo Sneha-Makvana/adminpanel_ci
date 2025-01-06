@@ -9,7 +9,6 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'LoginController::create');
 
 $routes->get('/admin', 'AdminController::dashboard');
-// $routes->get('/admin/getEvents', 'AdminController::getEvents');
 $routes->get('/admin/profile', 'AdminController::display');
 $routes->get('/admin/get-profile', 'AdminController::getProfile');
 
@@ -34,7 +33,6 @@ $routes->post('/product/update', 'ProductController::update');
 $routes->delete('/product/delete/(:num)', 'ProductController::delete/$1');
 $routes->get('/product/profile', 'ProductController::display');
 $routes->get('product/details/(:num)', 'ProductController::details/$1');
-// $routes->post('product/deleteImage/(:num)', 'ProductController::deleteImage/$1');
 
 
 $routes->get('/category', 'CategoryController::create');
@@ -47,7 +45,7 @@ $routes->post('/category/delete/(:num)', 'CategoryController::delete/$1');
 
 $routes->get('/order', 'OrderController::create');
 $routes->get('/order/view', 'OrderController::view');
-$routes->post('order/submitBooking', 'OrderController::submitBooking');
+$routes->post('/order/submitBooking', 'OrderController::submitBooking');
 $routes->post('/order/deleteBooking/(:num)', 'OrderController::deleteBooking/$1');
 $routes->get('/order/profile', 'OrderController::display');
 $routes->get('order/fetchOrderDetails/(:num)', 'OrderController::fetchOrderDetails/$1');
@@ -58,3 +56,4 @@ $routes->get('order/fetchOrders', 'OrderController::fetchOrders');
 $routes->get('/login', 'LoginController::create');
 $routes->post('/login', 'LoginController::login');
 $routes->get('/logout', 'LoginController::logout');
+

@@ -3,7 +3,7 @@
 
 <div class="container-fluid dashboard-content">
     <div class="row">
-        <!-- Customer and Product Selection -->
+
         <div class="col-12 col-lg-6 mx-5 mt-5">
             <div class="card">
                 <div class="card-body">
@@ -37,7 +37,6 @@
             </div>
         </div>
 
-        <!-- Table to show selected orders -->
         <div class="col-12 col-lg-10 mx-5 mt-5">
             <div class="card" id="bookingCard" style="display: none;">
                 <h5 class="card-header fs-4 text-center">Product Orders</h5>
@@ -53,7 +52,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Rows will be added dynamically here -->
+
                         </tbody>
                     </table>
                     <div class="text-right">
@@ -77,24 +76,43 @@
     $('#addMoreBtn').click(function() {
         const customerId = $('#customer').val();
         const productId = $('#products').val();
-        const productName = $('#products option:selected').text(); // Get product name
-        const productPrice = $('#products option:selected').data('price'); // Get product price
+        const productName = $('#products option:selected').text();
+        const productPrice = $('#products option:selected').data('price');
 
         if (!customerId || !productId) {
             $('#message').text('Please select both customer and product.');
             return;
         }
 
-        $('#message').text(''); // Clear any previous message
+        $('#message').text('');
 
         if (!customerSelected) {
-            $('#customer').prop('disabled', true); // Disable customer select once selected
+            $('#customer').prop('disabled', true);
             customerSelected = true;
         }
 
-        $('#bookingCard').show(); // Show the order table
+        $('#bookingCard').show();
 
-        const newRow = `
+        const existingProductIndex = bookingData.findIndex(item => item.product_id === productId);
+
+        if (existingProductIndex !== -1) {
+
+            const existingRow = $('#productTable tbody tr').eq(existingProductIndex);
+            const quantityInput = existingRow.find('.quantity');
+            const quantity = parseInt(quantityInput.val()) + 1;
+
+            quantityInput.val(quantity);
+
+            const totalInput = existingRow.find('.total');
+            const newTotal = quantity * productPrice;
+
+            totalInput.val(newTotal);
+
+            bookingData[existingProductIndex].quantity = quantity;
+            bookingData[existingProductIndex].total = newTotal;
+        } else {
+
+            const newRow = `
             <tr>
                 <td>${productName}</td>
                 <td><input type="number" class="form-control price" value="${productPrice}" readonly></td>
@@ -103,18 +121,19 @@
                 <td><button type="button" class="btn btn-danger removeRowBtn">Remove</button></td>
             </tr>
         `;
-        $('#productTable tbody').append(newRow);
+            $('#productTable tbody').append(newRow);
 
-        // Add to booking data
-        bookingData.push({
-            customer_id: customerId,
-            product_id: productId,
-            quantity: 1,
-            total: productPrice
-        });
+            bookingData.push({
+                customer_id: customerId,
+                product_id: productId,
+                quantity: 1,
+                total: productPrice
+            });
+        }
 
         calculateTotal();
     });
+
 
     $(document).on('input', '.quantity', function() {
         const row = $(this).closest('tr');
@@ -143,7 +162,7 @@
         const row = $(this).closest('tr');
         const rowIndex = row.index();
 
-        bookingData.splice(rowIndex, 1); // Remove from booking data
+        bookingData.splice(rowIndex, 1);
         row.remove();
 
         calculateTotal();

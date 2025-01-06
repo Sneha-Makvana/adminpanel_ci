@@ -38,9 +38,26 @@ class OrderController extends Controller
         $request = $this->request;
         $orderData = $request->getPost('booking_data');
 
+        // Check if booking_data is an array
+        if (empty($orderData) || !is_array($orderData)) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Invalid or missing booking data.'
+            ]);
+        }
+
         $orderModel = new OrderModel();
 
         foreach ($orderData as $data) {
+            // Validate each data element (you can add more validations here as needed)
+            if (empty($data['customer_id']) || empty($data['product_id']) || empty($data['quantity']) || empty($data['total'])) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'All fields (customer_id, product_id, quantity, total) are required.'
+                ]);
+            }
+
+            // Insert each order into the database
             $orderModel->insert([
                 'customer_id' => $data['customer_id'],
                 'product_id' => $data['product_id'],
@@ -49,8 +66,12 @@ class OrderController extends Controller
             ]);
         }
 
-        return $this->response->setJSON(['status' => 'success', 'message' => 'Order submitted successfully']);
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Order submitted successfully'
+        ]);
     }
+
 
     public function fetchOrders()
     {
@@ -68,7 +89,6 @@ class OrderController extends Controller
         }
     }
 
-    // Method to delete the order
     public function deleteBooking($id)
     {
         $orderModel = new OrderModel();

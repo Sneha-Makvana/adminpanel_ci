@@ -39,7 +39,7 @@ class ProductController extends Controller
         if (!$this->validate($rules)) {
             return $this->response->setJSON([
                 'success' => false,
-                'errors' => $validation->getErrors()    
+                'errors' => $validation->getErrors()
             ]);
         }
 
@@ -60,7 +60,6 @@ class ProductController extends Controller
         } else {
             $productImageNames = [];
         }
-
 
         $productModel->save([
             'product_name' => $this->request->getVar('product_name'),
@@ -101,11 +100,13 @@ class ProductController extends Controller
         $id = $this->request->getPost('id');
         $productModel = new ProductModel();
         $product = $productModel->find($id);
+
         if (!$product) {
             return $this->response->setJSON(['success' => false, 'message' => 'Product not found.']);
         }
 
         $validation = \Config\Services::validation();
+
         $rules = [
             'product_name' => 'required|min_length[3]|max_length[255]',
             'description' => 'required|min_length[5]',
@@ -113,8 +114,11 @@ class ProductController extends Controller
             'size' => 'required',
             'price' => 'required|numeric',
             'category' => 'required',
-            'product_image' => 'uploaded[product_image]|max_size[product_image,2048]|is_image[product_image]'
         ];
+
+        if ($this->request->getFileMultiple('product_image')) {
+            $rules['product_image'] = 'max_size[product_image,2048]|is_image[product_image]';
+        }
 
         if (!$this->validate($rules)) {
             return $this->response->setJSON(['success' => false, 'errors' => $validation->getErrors()]);
@@ -132,7 +136,7 @@ class ProductController extends Controller
         $productImages = $this->request->getFileMultiple('product_image');
         $productImageNames = [];
 
-        if (!empty($productImages)) {
+        if ($productImages) {
             foreach ($productImages as $image) {
                 if ($image->isValid() && !$image->hasMoved()) {
                     $imageName = $image->getRandomName();
@@ -145,9 +149,8 @@ class ProductController extends Controller
         if (!empty($productImageNames)) {
             $existingImages = explode(',', $product['product_image']);
             $eventData['product_image'] = implode(',', array_merge($existingImages, $productImageNames));
-        }
+        } else {
 
-        if (empty($productImageNames) && !empty($product['product_image'])) {
             $eventData['product_image'] = $product['product_image'];
         }
 
@@ -155,6 +158,7 @@ class ProductController extends Controller
 
         return $this->response->setJSON(['success' => true, 'message' => 'Product updated successfully.']);
     }
+
 
     public function fetchAll()
     {
