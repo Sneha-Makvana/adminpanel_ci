@@ -3,7 +3,7 @@
 
 <div class="container-fluid p-0 mt-5">
     <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
-    
+
     <div class="row">
         <div class="col-xl-12 col-xxl-5 d-flex">
             <div class="w-100">
@@ -14,7 +14,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col mt-0">
-                                        <a href="/product/view" style="text-decoration: none;">
+                                        <a href="<?= base_url('/product/view') ?>" style="text-decoration: none;">
                                             <h5 class="text-dark fs-4">Products</h5>
                                         </a>
                                     </div>
@@ -26,14 +26,14 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Total Customers Card -->
                     <div class="col-sm-4">
                         <div class="card bg-success-subtle">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col mt-0">
-                                        <a href="/customer/view" style="text-decoration: none;">
+                                        <a href="<?= base_url('/customer/view') ?>" style="text-decoration: none;">
                                             <h5 class="text-dark fs-4">Customers</h5>
                                         </a>
                                     </div>
@@ -52,7 +52,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col mt-0">
-                                        <a href="/order/view" style="text-decoration: none;">
+                                        <a href="<?= base_url('/order/view') ?>" style="text-decoration: none;">
                                             <h5 class="text-dark fs-4">Orders</h5>
                                         </a>
                                     </div>
@@ -87,11 +87,11 @@
                                 <th class="bg-dark text-light">Price</th>
                                 <th class="bg-dark text-light">Order Date</th>
                                 <th class="bg-dark text-light">Total</th>
-                         
+
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($latestOrders as $order): ?>
+                            <?php foreach ($latestOrders as $order) : ?>
                                 <tr>
                                     <td><?= $order['id'] ?></td>
                                     <td><?= $order['customer_name'] ?></td>
@@ -100,7 +100,7 @@
                                     <td><?= number_format($order['price'], 2) ?></td>
                                     <td><?= $order['order_date'] ?></td>
                                     <td><?= number_format($order['total'], 2) ?></td>
-                                   
+
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -118,7 +118,6 @@
 <!-- AJAX for delete action -->
 <script>
     $(document).ready(function() {
-        // Handle delete booking action
         $('#myTable').on('click', '.delete-btn', function() {
             const bookingId = $(this).data('id');
             if (confirm('Are you sure you want to delete this booking?')) {
@@ -128,7 +127,7 @@
                     success: function(response) {
                         if (response.success) {
                             alert(response.message);
-                            location.reload(); // Reload the page to reflect the deletion
+                            location.reload();
                         } else {
                             alert(response.message);
                         }

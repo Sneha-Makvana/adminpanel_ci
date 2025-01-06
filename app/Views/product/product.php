@@ -184,9 +184,8 @@
             $("#size").val(data.size);
             $("#category").val(data.category_id);
 
-            // Handle images: Split the product_image field into individual image paths and display them.
             if (data.product_image) {
-                const images = data.product_image.split(','); // Split images by comma
+                const images = data.product_image.split(',');
                 let imageHTML = '<p>Current Images:</p>';
                 images.forEach(function(image) {
                     imageHTML += `
@@ -195,12 +194,9 @@
                 </div>
             `;
                 });
-                $("#currentProductImage").html(imageHTML); // Render the images in the HTML.
+                $("#currentProductImage").html(imageHTML);
             }
         }
-
-
-
 
         function getQueryParameter(param) {
             const urlParams = new URLSearchParams(window.location.search);

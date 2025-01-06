@@ -39,7 +39,7 @@ class ProductController extends Controller
         if (!$this->validate($rules)) {
             return $this->response->setJSON([
                 'success' => false,
-                'errors' => $validation->getErrors()
+                'errors' => $validation->getErrors()    
             ]);
         }
 
@@ -105,7 +105,6 @@ class ProductController extends Controller
             return $this->response->setJSON(['success' => false, 'message' => 'Product not found.']);
         }
 
-        // Validation rules
         $validation = \Config\Services::validation();
         $rules = [
             'product_name' => 'required|min_length[3]|max_length[255]',
@@ -130,11 +129,9 @@ class ProductController extends Controller
             'category_id' => $this->request->getPost('category'),
         ];
 
-        // Handle product images
         $productImages = $this->request->getFileMultiple('product_image');
         $productImageNames = [];
 
-        // If there are any new images uploaded
         if (!empty($productImages)) {
             foreach ($productImages as $image) {
                 if ($image->isValid() && !$image->hasMoved()) {
@@ -145,25 +142,19 @@ class ProductController extends Controller
             }
         }
 
-        // If there are existing images, append the new ones
         if (!empty($productImageNames)) {
             $existingImages = explode(',', $product['product_image']);
             $eventData['product_image'] = implode(',', array_merge($existingImages, $productImageNames));
         }
 
-        // If no new images, just keep the existing ones
         if (empty($productImageNames) && !empty($product['product_image'])) {
             $eventData['product_image'] = $product['product_image'];
         }
 
-        // Update product
         $productModel->update($id, $eventData);
 
         return $this->response->setJSON(['success' => true, 'message' => 'Product updated successfully.']);
     }
-
-
-
 
     public function fetchAll()
     {
@@ -178,7 +169,6 @@ class ProductController extends Controller
 
         return $this->response->setJSON($events);
     }
-
 
     public function delete($id)
     {
@@ -201,7 +191,7 @@ class ProductController extends Controller
 
     public function display()
     {
-        return view('event/profile');
+        return view('product/profile');
     }
     public function details($id)
     {
@@ -210,11 +200,11 @@ class ProductController extends Controller
         $product = $productModel->find($id);
 
         if ($product) {
-            $product['image_url'] = base_url('uploads/events/' . $product['event_images']);
+            $product['image_url'] = base_url('public/uploads/events/' . $product['product_image']);
 
             return $this->response->setJSON($product);
         } else {
-            return $this->response->setJSON(['error' => 'Customer not found'], 404);
+            return $this->response->setJSON(['error' => 'Product not found'], 404);
         }
     }
 }

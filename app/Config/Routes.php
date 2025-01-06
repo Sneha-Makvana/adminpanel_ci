@@ -8,9 +8,10 @@ use CodeIgniter\Router\RouteCollection;
 // $routes->get('/', 'Home::index');
 $routes->get('/', 'LoginController::create');
 
-// $routes->get('/admin', 'AdminController::index');
 $routes->get('/admin', 'AdminController::dashboard');
-$routes->get('/admin/getEvents', 'AdminController::getEvents');
+// $routes->get('/admin/getEvents', 'AdminController::getEvents');
+$routes->get('/admin/profile', 'AdminController::display');
+$routes->get('/admin/get-profile', 'AdminController::getProfile');
 
 
 $routes->get('/customer', 'Customer::create');
@@ -33,7 +34,7 @@ $routes->post('/product/update', 'ProductController::update');
 $routes->delete('/product/delete/(:num)', 'ProductController::delete/$1');
 $routes->get('/product/profile', 'ProductController::display');
 $routes->get('product/details/(:num)', 'ProductController::details/$1');
-$routes->post('product/deleteImage/(:num)', 'ProductController::deleteImage/$1');
+// $routes->post('product/deleteImage/(:num)', 'ProductController::deleteImage/$1');
 
 
 $routes->get('/category', 'CategoryController::create');
@@ -57,12 +58,3 @@ $routes->get('order/fetchOrders', 'OrderController::fetchOrders');
 $routes->get('/login', 'LoginController::create');
 $routes->post('/login', 'LoginController::login');
 $routes->get('/logout', 'LoginController::logout');
-
-// $routes->post('/register', 'LoginController::register');
-    
-// $routes->get('login', 'LoginController::view');
-// // $routes->post('login/authenticate', 'LoginController::login');
-// // $routes->get('logout', 'LoginController::logout');
-
-// $routes->post('login', 'LoginController::login');
-// $routes->post('logout', 'LoginController::logout');

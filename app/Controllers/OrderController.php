@@ -8,20 +8,20 @@ use App\Models\OrderModel;
 use CodeIgniter\Controller;
 
 class OrderController extends Controller
-{   
+{
     public function view()
     {
         // $orderModel = new OrderModel();
-    
+
         // $orders = $orderModel
         //     ->select('orders.id, customer.name as customer_name, products.product_name, products.price, orders.quantity, orders.total, orders.order_date')
         //     ->join('customer', 'customer.id = orders.customer_id')
         //     ->join('products', 'products.id = orders.product_id')
         //     ->findAll();
-    
+
         return view('order/view');
     }
-    
+
     public function create()
     {
         $customerModel = new CustomerModel();
@@ -36,7 +36,7 @@ class OrderController extends Controller
     public function submitBooking()
     {
         $request = $this->request;
-        $orderData = $request->getPost('booking_data'); 
+        $orderData = $request->getPost('booking_data');
 
         $orderModel = new OrderModel();
 
@@ -52,18 +52,6 @@ class OrderController extends Controller
         return $this->response->setJSON(['status' => 'success', 'message' => 'Order submitted successfully']);
     }
 
-    // public function deleteBooking($id)
-    // {
-    //     $orderModel = new OrderModel();
-
-    //     $order = $orderModel->find($id);
-    //     if ($order) {
-    //         $orderModel->delete($id);
-    //         return $this->response->setJSON(['success' => true, 'message' => 'Order deleted successfully.']);
-    //     }
-
-    //     return $this->response->setJSON(['success' => false, 'message' => 'Order not found.']);
-    // }
     public function fetchOrders()
     {
         $orderModel = new OrderModel();
@@ -93,5 +81,30 @@ class OrderController extends Controller
 
         return $this->response->setJSON(['success' => false, 'message' => 'Order not found.']);
     }
+    public function display($bookingId)
+    {
+        return view('order/profile', ['bookingId' => $bookingId]);
+    }
+
+    public function fetchOrderDetails($id)
+    {
+        $orderModel = new OrderModel();
+        $customerModel = new CustomerModel();
+        $productModel = new ProductModel();
+
+        $order = $orderModel
+            ->select('orders.id as order_id, orders.quantity, orders.total, orders.order_date, 
+                 products.product_name, products.price, 
+                 customer.name as customer_name, customer.email, customer.phone_no')
+            ->join('products', 'products.id = orders.product_id')
+            ->join('customer', 'customer.id = orders.customer_id')
+            ->where('orders.id', $id)
+            ->first();
+
+        if ($order) {
+            return $this->response->setJSON(['success' => true, 'data' => $order]);
+        } else {
+            return $this->response->setJSON(['success' => false, 'message' => 'Order not found']);
+        }
+    }
 }
-?>

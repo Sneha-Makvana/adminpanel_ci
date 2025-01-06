@@ -164,7 +164,7 @@ class Customer extends Controller
         $customer = $customerModel->find($id);
 
         if ($customer) {
-            $customer['image_url'] = base_url('uploads/customers/' . $customer['profile_image']);
+            $customer['image_url'] = base_url('public/uploads/customers/' . $customer['profile_image']);
 
             return $this->response->setJSON($customer);
         } else {

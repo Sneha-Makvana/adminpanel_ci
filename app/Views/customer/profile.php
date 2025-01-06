@@ -1,10 +1,10 @@
 <?= $this->extend('layout'); ?>
 <?= $this->section('content'); ?>
 
-<div class="container-fluid p-0">
+<div class="container-fluid p-0 mt-5">
 
     <div class="mb-3">
-        <h1 class="h3 d-inline align-middle">Profile</h1>
+        <h1 class="h3 d-inline align-middle">Customer Profile</h1>
     </div>
     <div class="row">
         <div class="col-md-4 col-xl-3">
@@ -72,7 +72,7 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <a href="/customer/view" class="btn btn-info">Back to List</a>
+                                <a href="<?= base_url('/customer/view') ?>" class="btn btn-info">Back to List</a>
                             </div>
                         </div>
                     </div>
@@ -85,7 +85,35 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    
+    $(document).ready(function() {
+        const params = new URLSearchParams(window.location.search);
+        const customerId = params.get('id');
+
+        if (customerId) {
+            $.ajax({
+                url: `<?= site_url('customer/details'); ?>/${customerId}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#customer-name').text(data.name || 'N/A');
+                    $('#customer-email').text(data.email || 'N/A');
+                    $('#customer-gender').text(data.gender || 'N/A');
+                    $('#customer-phone_no').text(data.phone_no || 'N/A');
+                    $('#customer-address').text(data.address || 'N/A');
+                    $('#customer-city').text(data.city || 'N/A');
+
+                    if (data.image_url) {
+                        $('#profile-image').attr('src', data.image_url);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error fetching customer details: ' + error);
+                }
+            });
+        } else {
+            alert('No customer ID provided.');
+        }
+    });
 </script>
 
 <?= $this->endSection(); ?>

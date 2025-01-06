@@ -60,7 +60,7 @@
             let formData = new FormData(this);
 
             $.ajax({
-                url: '<?= base_url('/login')?>',
+                url: '<?= base_url('/login') ?>',
                 type: 'POST',
                 data: formData,
                 processData: false,

@@ -5,8 +5,8 @@ use CodeIgniter\Model;
 
 class LoginModel extends Model
 {
-    protected $table = 'user';
+    protected $table = 'user';  
     protected $primaryKey = 'id';
-    protected $allowedFields = ['email', 'password','create_at'];
+    protected $allowedFields = ['email', 'password','name','gender','phone_no','address','city','image','create_at'];
     protected $useTimestamps = true;
 }

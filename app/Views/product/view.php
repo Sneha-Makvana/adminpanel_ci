@@ -64,7 +64,7 @@
                         rows += `
                     <tr id="products-${product.id}">
                         <td>
-                            ${firstImage ? `<img src="${firstImage}" alt="Event Image" class="img-thumbnail" style="max-width: 100px; max-height: 100px;">` : 'No Image'}
+                            ${firstImage ? `<img src="${firstImage}" alt="Event Image" class="img-thumbnail" style="width: 80px; height: 80px;">` : 'No Image'}
                         </td>
                         <td>${product.product_name}</td>
                         <td>${product.quantity}</td>

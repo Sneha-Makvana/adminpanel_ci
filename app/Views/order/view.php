@@ -6,7 +6,7 @@
 
 <div class="container-fluid dashboard-content mt-5">
     <div class="row">
-        <a href="<?= base_url('/order') ?>"><button type="button" class="btn btn-info btn-lg float-end mt-2 mb-2">Add Booking</button></a>
+        <a href="<?= base_url('/order') ?>"><button type="button" class="btn btn-info btn-lg float-end mt-2 mb-2">Add Order</button></a>
     </div>
 
     <div class="row">

@@ -77,3 +77,8 @@
 .navbar-brand:hover{
     color: white;
 }
+footer.footer {
+    background: #f8f9fa !important;
+    direction: ltr;
+    padding: 1rem .875rem;
+}
